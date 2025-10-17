@@ -10,6 +10,34 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
+# Require VCR and WebMock for recording HTTP interactions
+require 'vcr'
+require 'webmock/rspec'
+
+# Configure VCR for recording HTTP interactions in tests
+VCR.configure do |config|
+  # Store cassettes in spec/fixtures/vcr_cassettes directory
+  config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+
+  # Use WebMock as the HTTP stubbing library
+  config.hook_into :webmock
+
+  # Filter sensitive API keys from cassettes
+  config.filter_sensitive_data('<OPENWEATHER_API_KEY>') { ENV['OPENWEATHER_API_KEY'] }
+
+  # Allow connections to localhost for testing
+  config.allow_http_connections_when_no_cassette = false
+
+  # Configure VCR to work with RSpec metadata
+  config.configure_rspec_metadata!
+
+  # Set default cassette options
+  config.default_cassette_options = {
+    record: :once,
+    match_requests_on: [ :method, :uri, :body ]
+  }
+end
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -44,6 +72,25 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+
+  # Skip Vite asset tags in tests
+  config.before(:each, type: :request) do
+    allow_any_instance_of(ActionView::Helpers::TagHelper)
+      .to receive(:vite_client_tag).and_return('')
+    allow_any_instance_of(ActionView::Helpers::TagHelper)
+      .to receive(:vite_javascript_tag).and_return('')
+    allow_any_instance_of(ActionView::Helpers::TagHelper)
+      .to receive(:vite_stylesheet_tag).and_return('')
+  end
+
+  config.before(:each, type: :view) do
+    allow_any_instance_of(ActionView::Helpers::TagHelper)
+      .to receive(:vite_client_tag).and_return('')
+    allow_any_instance_of(ActionView::Helpers::TagHelper)
+      .to receive(:vite_javascript_tag).and_return('')
+    allow_any_instance_of(ActionView::Helpers::TagHelper)
+      .to receive(:vite_stylesheet_tag).and_return('')
+  end
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false

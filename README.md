@@ -1,24 +1,35 @@
-# README
+# Weather Forecast Application
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A Ruby on Rails weather forecast application using OpenWeather API with 30-minute caching by zip code.
 
-Things you may want to cover:
+## Setup
 
-* Ruby version
+1. **Install dependencies**
+   ```bash
+   bundle install
+   npm install
+   ```
 
-* System dependencies
+2. **Create `.env` file with API key**
+   ```bash
+   echo "OPENWEATHER_API_KEY=your_api_key_here" > .env
+   ```
 
-* Configuration
+3. **Setup database**
+   ```bash
+   bin/rails db:create db:migrate
+   RAILS_ENV=test bin/rails db:create db:migrate
+   ```
 
-* Database creation
+4. **Run tests**
+   ```bash
+   bundle exec rspec
+   ```
 
-* Database initialization
+5. **Start server**
+   ```bash
+   bin/dev
+   ```
 
-* How to run the test suite
+   Visit http://localhost:3000
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

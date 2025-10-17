@@ -1,0 +1,79 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.openweathermap.org/geo/1.0/direct?appid=<OPENWEATHER_API_KEY>&limit=1&q=10001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 17 Oct 2025 17:39:45 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '81'
+      Connection:
+      - keep-alive
+      X-Cache-Key:
+      - "/geo/1.0/direct?limit=1&q=10001"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+    body:
+      encoding: UTF-8
+      string: '[{"name":"Fair Gate ED","lat":53.7210337,"lon":-6.34314758220654,"country":"IE"}]'
+  recorded_at: Fri, 17 Oct 2025 17:39:45 GMT
+- request:
+    method: get
+    uri: http://api.openweathermap.org/geo/1.0/reverse?appid=<OPENWEATHER_API_KEY>&lat=53.7210337&limit=1&lon=-6.34314758220654
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 17 Oct 2025 17:39:45 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '103'
+      Connection:
+      - keep-alive
+      X-Cache-Key:
+      - "/geo/1.0/reverse?lat=53.72&limit=1&lon=-6.34"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+    body:
+      encoding: UTF-8
+      string: '[{"name":"The Borough District of Drogheda","lat":53.75859355,"lon":-6.348133848021236,"country":"IE"}]'
+  recorded_at: Fri, 17 Oct 2025 17:39:45 GMT
+recorded_with: VCR 6.3.1

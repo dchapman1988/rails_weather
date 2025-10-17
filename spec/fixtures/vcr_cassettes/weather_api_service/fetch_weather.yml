@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.openweathermap.org/data/2.5/weather?appid=<OPENWEATHER_API_KEY>&lat=40.7128&lon=-74.006&units=imperial
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 17 Oct 2025 17:39:47 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '514'
+      Connection:
+      - keep-alive
+      X-Cache-Key:
+      - "/data/2.5/weather?lat=40.71&lon=-74.01&units=imperial"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+    body:
+      encoding: UTF-8
+      string: '{"coord":{"lon":-74.009,"lat":40.706},"weather":[{"id":800,"main":"Clear","description":"clear
+        sky","icon":"01d"}],"base":"stations","main":{"temp":61.11,"feels_like":58.6,"temp_min":59,"temp_max":63.34,"pressure":1015,"humidity":36,"sea_level":1015,"grnd_level":1013},"visibility":10000,"wind":{"speed":14.97,"deg":330,"gust":20.71},"clouds":{"all":0},"dt":1760722612,"sys":{"type":2,"id":2037026,"country":"US","sunrise":1760699364,"sunset":1760739176},"timezone":-14400,"id":5128581,"name":"New
+        York","cod":200}'
+  recorded_at: Fri, 17 Oct 2025 17:39:47 GMT
+recorded_with: VCR 6.3.1

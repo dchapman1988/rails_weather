@@ -11,7 +11,13 @@
 #     policy.img_src     :self, :https, :data
 #     policy.object_src  :none
 #     policy.script_src  :self, :https
+#    policy.script_src *policy.script_src, :unsafe_eval, "http://#{ ViteRuby.config.host_with_port }" if Rails.env.development?
+
+#    policy.script_src *policy.script_src, :blob if Rails.env.test?
+
 #     policy.style_src   :self, :https
+#    policy.style_src *policy.style_src, :unsafe_inline if Rails.env.development?
+
 #     # Specify URI for violation reports
 #     # policy.report_uri "/csp-violation-report-endpoint"
 #   end

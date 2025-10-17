@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.openweathermap.org/geo/1.0/direct?appid=<OPENWEATHER_API_KEY>&limit=1&q=1600%20Pennsylvania%20Avenue,%20Washington,%20DC
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 17 Oct 2025 17:39:46 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+      X-Cache-Key:
+      - "/geo/1.0/direct?limit=1&q=1600%20pennsylvania%20avenue%2c%20washington%2c%20dc"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+    body:
+      encoding: UTF-8
+      string: "[]"
+  recorded_at: Fri, 17 Oct 2025 17:39:46 GMT
+recorded_with: VCR 6.3.1

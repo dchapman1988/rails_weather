@@ -1,0 +1,174 @@
+<% if @error %>
+  <!-- Error Display -->
+  <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 shadow-lg animate-fade-in">
+    <div class="flex items-start">
+      <i class="fas fa-exclamation-triangle text-red-500 text-xl mr-3 flex-shrink-0 mt-1"></i>
+      <div>
+        <h3 class="text-lg font-semibold text-red-800 mb-1">Error</h3>
+        <p class="text-red-700"><%= @error %></p>
+      </div>
+    </div>
+  </div>
+<% elsif @weather %>
+  <!-- Success Display -->
+  <div class="space-y-6 animate-fade-in">
+    <!-- Cache Indicator -->
+    <% if @from_cache %>
+      <div class="bg-green-50 border-l-4 border-green-500 rounded-lg p-4 shadow">
+        <div class="flex items-center">
+          <i class="fas fa-check-circle text-green-500 text-lg mr-2"></i>
+          <p class="text-green-800 font-medium">
+            <span class="inline-block w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+            Loaded from cache: <%= @cached_at %>
+          </p>
+        </div>
+      </div>
+    <% else %>
+      <div class="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-4 shadow">
+        <div class="flex items-center">
+          <i class="fas fa-sync-alt text-blue-500 text-lg mr-2"></i>
+          <p class="text-blue-800 font-medium">Fresh data from OpenWeather API</p>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Current Weather Card -->
+    <div class="bg-white rounded-lg shadow-2xl p-8">
+      <!-- Location Header -->
+      <div class="border-b border-gray-200 pb-4 mb-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-3xl font-bold text-gray-800">
+              <i class="fas fa-map-marker-alt text-blue-500 text-3xl mr-3"></i>
+              <%= @location %>
+            </h2>
+            <% if @zip_code %>
+              <p class="text-gray-600 text-lg ml-10">Zip Code: <%= @zip_code %></p>
+            <% end %>
+          </div>
+          <% if @weather[:icon] %>
+            <img src="https://openweathermap.org/img/wn/<%= @weather[:icon] %>@2x.png" 
+                 alt="<%= @weather[:conditions] %>" 
+                 class="w-20 h-20">
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Temperature Display -->
+      <div class="text-center mb-8">
+        <div class="text-7xl font-bold text-gray-800 mb-2">
+          <%= @weather[:temperature].round %><span class="text-4xl">°F</span>
+        </div>
+        <div class="text-2xl text-gray-600 capitalize mb-4">
+          <%= @weather[:conditions] %>
+        </div>
+        <% if @weather[:feels_like] %>
+          <p class="text-gray-500">Feels like <%= @weather[:feels_like].round %>°F</p>
+        <% end %>
+      </div>
+
+      <!-- High/Low Temperature -->
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="bg-red-50 rounded-lg p-4 text-center">
+          <i class="fas fa-arrow-up text-red-500 text-2xl mb-2"></i>
+          <div class="text-sm text-gray-600 mb-1">High</div>
+          <div class="text-3xl font-bold text-red-600"><%= @weather[:high_temp].round %>°</div>
+        </div>
+        <div class="bg-blue-50 rounded-lg p-4 text-center">
+          <i class="fas fa-arrow-down text-blue-500 text-2xl mb-2"></i>
+          <div class="text-sm text-gray-600 mb-1">Low</div>
+          <div class="text-3xl font-bold text-blue-600"><%= @weather[:low_temp].round %>°</div>
+        </div>
+      </div>
+
+      <!-- Additional Weather Details -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-gray-200">
+        <% if @weather[:humidity] %>
+          <div class="text-center">
+            <i class="fas fa-tint text-blue-500 text-2xl mb-2"></i>
+            <div class="text-xs text-gray-500 uppercase">Humidity</div>
+            <div class="text-lg font-semibold text-gray-800"><%= @weather[:humidity] %>%</div>
+          </div>
+        <% end %>
+
+        <% if @weather[:wind_speed] %>
+          <div class="text-center">
+            <i class="fas fa-wind text-gray-500 text-2xl mb-2"></i>
+            <div class="text-xs text-gray-500 uppercase">Wind</div>
+            <div class="text-lg font-semibold text-gray-800"><%= @weather[:wind_speed].round(1) %> mph</div>
+          </div>
+        <% end %>
+
+        <% if @weather[:pressure] %>
+          <div class="text-center">
+            <i class="fas fa-chart-bar text-purple-500 text-2xl mb-2"></i>
+            <div class="text-xs text-gray-500 uppercase">Pressure</div>
+            <div class="text-lg font-semibold text-gray-800"><%= @weather[:pressure] %> hPa</div>
+          </div>
+        <% end %>
+
+        <% if @weather[:visibility] %>
+          <div class="text-center">
+            <i class="fas fa-eye text-green-500 text-2xl mb-2"></i>
+            <div class="text-xs text-gray-500 uppercase">Visibility</div>
+            <div class="text-lg font-semibold text-gray-800"><%= (@weather[:visibility] / 1609.34).round(1) %> mi</div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Extended Forecast -->
+    <% if @forecast && @forecast.any? %>
+      <div class="bg-white rounded-lg shadow-2xl p-8">
+        <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+          <i class="fas fa-calendar-alt text-blue-500 text-2xl mr-3"></i>
+          5-Day Forecast
+        </h3>
+
+        <div class="grid gap-4">
+          <% @forecast.group_by { |f| f[:date] }.first(5).each do |date, forecasts| %>
+            <% next if date.nil? %>
+            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+              <div class="flex items-center justify-between mb-4">
+                <div class="font-semibold text-gray-800 text-lg">
+                  <%= Date.parse(date).strftime("%A, %B %d") %>
+                </div>
+                <% if forecasts.first[:icon] %>
+                  <img src="https://openweathermap.org/img/wn/<%= forecasts.first[:icon] %>.png" 
+                       alt="<%= forecasts.first[:conditions] %>" 
+                       class="w-12 h-12">
+                <% end %>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <span class="text-gray-600">Conditions:</span>
+                  <span class="font-medium ml-1"><%= forecasts.first[:conditions] %></span>
+                </div>
+                <div>
+                  <span class="text-gray-600">High/Low:</span>
+                  <span class="font-medium ml-1">
+                    <% 
+                      high_temp = forecasts.first[:high_temp] || forecasts.first[:temp_max] || forecasts.max_by { |f| f[:temperature] }[:temperature]
+                      low_temp = forecasts.first[:low_temp] || forecasts.first[:temp_min] || forecasts.min_by { |f| f[:temperature] }[:temperature]
+                    %>
+                    <%= high_temp %>° / <%= low_temp %>°
+                  </span>
+                </div>
+                <div>
+                  <span class="text-gray-600">Humidity:</span>
+                  <span class="font-medium ml-1"><%= forecasts.first[:humidity] %>%</span>
+                </div>
+                <div>
+                  <span class="text-gray-600">Precipitation:</span>
+                  <span class="font-medium ml-1"><%= forecasts.first[:pop] %>%</span>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+

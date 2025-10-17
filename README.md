@@ -33,3 +33,12 @@ A Ruby on Rails weather forecast application using OpenWeather API with 30-minut
 
    Visit http://localhost:3000
 
+
+## Documentation
+
+This project uses yard, to view run the following:
+
+```bash
+bundle exec yard
+open doc/index.html
+```

@@ -75,21 +75,21 @@ RSpec.configure do |config|
 
   # Skip Vite asset tags in tests
   config.before(:each, type: :request) do
-    allow_any_instance_of(ActionView::Helpers::TagHelper)
-      .to receive(:vite_client_tag).and_return('')
-    allow_any_instance_of(ActionView::Helpers::TagHelper)
-      .to receive(:vite_javascript_tag).and_return('')
-    allow_any_instance_of(ActionView::Helpers::TagHelper)
-      .to receive(:vite_stylesheet_tag).and_return('')
+    allow_any_instance_of(ActionView::Base)
+      .to receive(:vite_client_tag).and_return(''.html_safe)
+    allow_any_instance_of(ActionView::Base)
+      .to receive(:vite_javascript_tag).and_return(''.html_safe)
+    allow_any_instance_of(ActionView::Base)
+      .to receive(:vite_stylesheet_tag).and_return(''.html_safe)
   end
 
   config.before(:each, type: :view) do
-    allow_any_instance_of(ActionView::Helpers::TagHelper)
-      .to receive(:vite_client_tag).and_return('')
-    allow_any_instance_of(ActionView::Helpers::TagHelper)
-      .to receive(:vite_javascript_tag).and_return('')
-    allow_any_instance_of(ActionView::Helpers::TagHelper)
-      .to receive(:vite_stylesheet_tag).and_return('')
+    allow_any_instance_of(ActionView::Base)
+      .to receive(:vite_client_tag).and_return(''.html_safe)
+    allow_any_instance_of(ActionView::Base)
+      .to receive(:vite_javascript_tag).and_return(''.html_safe)
+    allow_any_instance_of(ActionView::Base)
+      .to receive(:vite_stylesheet_tag).and_return(''.html_safe)
   end
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
